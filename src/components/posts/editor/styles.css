@@ -1,0 +1,19 @@
+.tiptap {
+    min-height: 5rem;
+    outline: none;
+    position: relative;
+  }
+  
+  .tiptap.ProseMirror p.is-empty::before {
+    content: "What's on your mind?";
+    color: #9ca3af;
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+  }
+  
+  .dark .tiptap.ProseMirror p.is-empty::before {
+    color: #6b7280;
+  }
+  
