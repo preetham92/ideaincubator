@@ -4,13 +4,14 @@ import { useEffect, useState, useRef } from "react";
 import PostEditor from "@/components/posts/editor/PostEditor";
 import Post from "@/components/posts/Post";
 import WhoToFollow from "@/components/WhoToFollow";
+import MobileWhoToFollow from "@/components/mobileWhoToFollow";
 import { getPosts } from "@/components/posts/editor/actions";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const observerRef = useRef(null);
+  const [showMobileSuggestions, setShowMobileSuggestions] = useState(false);
 
-  // ✅ Fetch posts initially
   useEffect(() => {
     async function fetchPosts() {
       const fetchedPosts = await getPosts();
@@ -19,25 +20,45 @@ export default function Home() {
     fetchPosts();
   }, []);
 
-  return (
-    <div className="flex flex-col lg:flex-row justify-center gap-0 lg:gap-10 p-0 w-full">
-      {/* Main Content Section */}
-      <main className="w-full max-w-[600px] mx-auto space-y-6 p-2">
-        <PostEditor onPostCreated={(newPost) => setPosts([newPost, ...posts])} />
+  useEffect(() => {
+    if (posts.length >= 6) {
+      setShowMobileSuggestions(true);
+    }
+  }, [posts]);
 
-        {/* ✅ Who to Follow for Mobile (Horizontal Scroll) */}
-        <div className="sm:hidden w-full overflow-x-auto no-scrollbar py-2">
-          <WhoToFollow horizontal />
+  const renderPosts = () => {
+    if (posts.length === 0) {
+      return (
+        <p className="text-center text-gray-500 dark:text-gray-300">
+          No posts yet. Start a conversation!
+        </p>
+      );
+    }
+
+    return posts.map((post, index) => (
+      <div key={post.id} className="w-full">
+        <Post post={post} />
+        {index === 5 && showMobileSuggestions && (
+          <div className="lg:hidden w-full">
+            <MobileWhoToFollow />
+          </div>
+        )}
+      </div>
+    ));
+  };
+
+  return (
+    <div className="flex flex-col lg:flex-row justify-center lg:gap-10 w-full">
+      {/* Main Content Section */}
+      <main className="w-full lg:max-w-[600px] mx-auto">
+        {/* Post Editor with padding only on larger screens */}
+        <div className="px-0 lg:px-2 mb-4">
+          <PostEditor onPostCreated={(newPost) => setPosts([newPost, ...posts])} />
         </div>
 
-        <div className="space-y-5" ref={observerRef}>
-          {posts.length > 0 ? (
-            posts.map((post) => <Post key={post.id} post={post} />)
-          ) : (
-            <p className="text-center text-gray-500 dark:text-gray-300">
-              No posts yet. Start a conversation!
-            </p>
-          )}
+        {/* Posts container with no padding on mobile */}
+        <div className="space-y-[1px] w-full" ref={observerRef}>
+          {renderPosts()}
         </div>
       </main>
 

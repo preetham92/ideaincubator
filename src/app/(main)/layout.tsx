@@ -4,7 +4,7 @@ import SessionProvider from "./SessionProvider";
 import Navbar from "./Navbar";
 import MenuBar from "./MenuBar";
 import ThemeProvider from "@/components/ThemeProvider";
-import WhoToFollow from "@/components/WhoToFollow"; // ✅ Added WhoToFollow
+import WhoToFollow from "@/components/WhoToFollow";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const session = await validateRequest();
@@ -20,7 +20,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
           {/* Navbar */}
           <Navbar />
 
-          <div className="max-w-7xl w-full p-6 flex gap-8 mx-auto">
+          <div className="max-w-7xl w-full sm:p-6 flex gap-8 mx-auto">
             {/* Sidebar - Left (MenuBar) */}
             <aside className="hidden sm:block flex-none w-[18rem] lg:w-[16rem] xl:w-[14rem]">
               <div className="sticky top-[5.25rem] space-y-5 rounded-2xl p-6 border border-white/15 transition-all duration-300 
@@ -31,16 +31,14 @@ export default async function Layout({ children }: { children: React.ReactNode }
             </aside>
 
             {/* Main Content Area */}
-            <main className="flex-1 min-w-0 p-6 rounded-2xl border transition-all duration-300
+            <main className="flex-1 min-w-0 sm:p-6 rounded-none sm:rounded-2xl border-0 sm:border transition-all duration-300
               dark:bg-[#121826]/80 dark:border-[#E94560]/30 dark:hover:shadow-[#E94560]/50
-              bg-white border-gray-300 hover:shadow-lg">
+              bg-white sm:border-gray-300 hover:shadow-lg">
               {children}
             </main>
-
-           
           </div>
 
-          {/* ✅ Mobile Bottom Navbar */}
+          {/* Mobile Bottom Navbar */}
           <div className="fixed bottom-0 w-full border-t bg-card p-3 sm:hidden">
             <MenuBar className="flex justify-center gap-5" />
           </div>
