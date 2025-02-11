@@ -3,7 +3,8 @@ import { redirect } from "next/navigation";
 import SessionProvider from "./SessionProvider";
 import Navbar from "./Navbar";
 import MenuBar from "./MenuBar";
-import ThemeProvider from "@/components/ThemeProvider"; // ✅ Corrected import
+import ThemeProvider from "@/components/ThemeProvider";
+import WhoToFollow from "@/components/WhoToFollow"; // ✅ Added WhoToFollow
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const session = await validateRequest();
@@ -20,7 +21,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
           <Navbar />
 
           <div className="max-w-7xl w-full p-6 flex gap-8 mx-auto">
-            {/* Sidebar - Glass Effect & Adaptive Theme */}
+            {/* Sidebar - Left (MenuBar) */}
             <aside className="hidden sm:block flex-none w-[18rem] lg:w-[16rem] xl:w-[14rem]">
               <div className="sticky top-[5.25rem] space-y-5 rounded-2xl p-6 border border-white/15 transition-all duration-300 
                 dark:bg-[#0F172A]/70 dark:shadow-[0px_4px_20px_rgba(233,69,96,0.3)] dark:backdrop-blur-2xl
@@ -35,13 +36,14 @@ export default async function Layout({ children }: { children: React.ReactNode }
               bg-white border-gray-300 hover:shadow-lg">
               {children}
             </main>
+
+           
           </div>
 
-          {/* ✅ Mobile Bottom Navbar - Corrected Placement */}
+          {/* ✅ Mobile Bottom Navbar */}
           <div className="fixed bottom-0 w-full border-t bg-card p-3 sm:hidden">
             <MenuBar className="flex justify-center gap-5" />
           </div>
-
         </div>
       </ThemeProvider>
     </SessionProvider>
