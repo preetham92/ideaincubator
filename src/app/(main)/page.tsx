@@ -66,9 +66,9 @@ export default function Home() {
 
       {/* Right Sidebar - Who to Follow (Visible only on large screens) */}
       <aside className="hidden lg:block w-[20rem] flex-none">
-        <div className="sticky top-[5.25rem] space-y-6 rounded-2xl p-5 border border-white/15 transition-all duration-300 
-          dark:bg-[#0F172A]/80 dark:shadow-[0px_4px_20px_rgba(233,69,96,0.4)] dark:backdrop-blur-xl
-          bg-white/60 shadow-md hover:shadow-lg dark:hover:shadow-[#E94550]/50">
+        <div className="sticky top-[var(--navbar-height,5.25rem)] space-y-6 rounded-2xl p-5 border border-white/15 
+    transition-all duration-300 dark:bg-[#0F172A]/80 dark:shadow-[0px_4px_20px_rgba(233,69,96,0.4)] 
+    dark:backdrop-blur-xl bg-white/60 shadow-md hover:shadow-lg dark:hover:shadow-[#E94550]/50">
           <WhoToFollow />
         </div>
         <div 
