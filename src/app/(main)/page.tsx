@@ -6,6 +6,7 @@ import Post from "@/components/posts/Post";
 import WhoToFollow from "@/components/WhoToFollow";
 import MobileWhoToFollow from "@/components/mobileWhoToFollow";
 import { getPosts } from "@/components/posts/editor/actions";
+import TrendingTopics from "@/components/TrendingTopics";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
@@ -60,6 +61,7 @@ export default function Home() {
         <div className="space-y-[1px] w-full" ref={observerRef}>
           {renderPosts()}
         </div>
+        
       </main>
 
       {/* Right Sidebar - Who to Follow (Visible only on large screens) */}
@@ -69,7 +71,21 @@ export default function Home() {
           bg-white/60 shadow-md hover:shadow-lg dark:hover:shadow-[#E94550]/50">
           <WhoToFollow />
         </div>
+        <div 
+    className="mt-4 overflow-y-auto" 
+    style={{ 
+      height: 'calc(90vh - 90px)', // Adjust height dynamically
+      paddingBottom: '80px', // Space for scrolling under navbar
+      scrollbarWidth: 'none', // Hide scrollbar (Firefox)
+      msOverflowStyle: 'none' // Hide scrollbar (IE)
+    }}
+  >
+    <TrendingTopics />
+  </div>
       </aside>
+     
+     
+      
     </div>
   );
 }

@@ -37,7 +37,6 @@ export default async function Layout({ children }: { children: React.ReactNode }
               {children}
             </main>
           </div>
-
           {/* Mobile Bottom Navbar */}
           <div className="fixed bottom-0 w-full border-t bg-card p-3 sm:hidden">
             <MenuBar className="flex justify-center gap-5" />
