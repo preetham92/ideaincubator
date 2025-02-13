@@ -34,7 +34,8 @@ export const validateRequest = cache(
 );
 
 export async function logout() {
-    const cookieStore = cookies();
-    cookieStore.delete(lucia.sessionCookieName);
+    const cookieStore = await cookies();  // ✅ Await cookies()
+    await cookieStore.delete(lucia.sessionCookieName); // ✅ Await delete()
+    
     redirect("/login");
 }
