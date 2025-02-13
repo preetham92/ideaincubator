@@ -47,7 +47,7 @@ export async function GET(req: Request) {
           select: { id: true } // Check if user is already followed
         }
       },
-      take: 3, // Limit results per request
+      take: 4, // Limit results per request
       skip: offset, // Implement pagination
       orderBy: [
         { followers: { _count: 'desc' } }, // Most followed users first

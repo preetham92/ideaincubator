@@ -94,7 +94,7 @@ export default function WhoToFollow() {
     <div className={`rounded-lg border ${
       resolvedTheme === "dark" ? "border-gray-800 bg-gray-900" : "border-gray-200 bg-white"
     } p-4 sticky top-4`}>
-      <h2 className="font-semibold mb-4">Similar Minds</h2>
+      <h2 className="text-lg font-bold text-gray-800 dark:text-white flex items-center gap-2">Similar Minds</h2>
 
       <div className="space-y-4">
         {suggestions.map((user) => (

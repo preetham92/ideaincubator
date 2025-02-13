@@ -1,5 +1,7 @@
+"use client";
 import { useEffect, useState } from "react";
 import { Flame, Hash, TrendingUp, User } from "lucide-react";
+
 
 export default function TrendingTopics() {
   const [trending, setTrending] = useState([]);
