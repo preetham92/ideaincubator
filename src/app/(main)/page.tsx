@@ -7,6 +7,7 @@ import WhoToFollow from "@/components/WhoToFollow";
 import MobileWhoToFollow from "@/components/mobileWhoToFollow";
 import { getPosts } from "@/components/posts/editor/actions";
 import TrendingTopics from "@/components/TrendingTopics";
+import ForYouFeed from "./ForYouFeed";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
@@ -55,6 +56,7 @@ export default function Home() {
         {/* Post Editor with padding only on larger screens */}
         <div className="px-0 lg:px-2 mb-4">
           <PostEditor onPostCreated={(newPost) => setPosts([newPost, ...posts])} />
+            <ForYouFeed/>
         </div>
 
         {/* Posts container with no padding on mobile */}
