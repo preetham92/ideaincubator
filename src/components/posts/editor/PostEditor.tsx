@@ -115,7 +115,7 @@ export default function PostEditor() {
           onClick={onSubmit}
           disabled={isPosting || input.trim() === ""}
           className="bg-[#E94560] hover:bg-[#FF7E67] text-white 
-            font-semibold rounded-lg px-5 py-2 transition-all 
+            font-semibold rounded-full px-5 py-2 transition-all 
             disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isPosting ? "Posting..." : "Post"}

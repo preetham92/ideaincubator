@@ -7,6 +7,7 @@ import ThemeProvider from "@/components/ThemeProvider";
 import WhoToFollow from "@/components/WhoToFollow";
 import TrendingTopics from "@/components/TrendingTopics";
 
+
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const session = await validateRequest();
 
