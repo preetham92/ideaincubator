@@ -1,4 +1,6 @@
 // app/api/unfollow/route.ts
+import  { prisma }  from "@/lib/prisma";
+import { validateRequest } from "@/lib/auth";
 export async function POST(request: Request) {
     try {
       const { user: currentUser } = await validateRequest();

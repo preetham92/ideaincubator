@@ -18,33 +18,32 @@ interface SuggestedUser {
 
 export default function WhoToFollow() {
   const [suggestions, setSuggestions] = useState<SuggestedUser[]>([]);
-  const [offset, setOffset] = useState(0); // ✅ Track offset
+  const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [expanded, setExpanded] = useState(false); // ✅ Track if expanded
+  const [expanded, setExpanded] = useState(false);
   const [loadingStates, setLoadingStates] = useState<Record<string, boolean>>({});
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    fetchSuggestions(); // ✅ Load initial users
+    fetchSuggestions();
   }, []);
 
   const fetchSuggestions = async () => {
-    if (loading) return; // Prevent multiple clicks
+    if (loading) return;
 
     setLoading(true);
     try {
       const response = await fetch(`/api/suggestions?offset=${offset}`);
       const newUsers = await response.json();
 
-      // ✅ Append new users to existing list
       setSuggestions((prev) => [
         ...prev,
-        ...newUsers.filter((user) => !prev.some((u) => u.id === user.id)), // Avoid duplicates
+        ...newUsers.filter((user) => !prev.some((u) => u.id === user.id)),
       ]);
 
-      setOffset((prevOffset) => prevOffset + newUsers.length); // ✅ Update offset
+      setOffset((prevOffset) => prevOffset + newUsers.length);
     } catch (error) {
       console.error("Failed to fetch suggestions:", error);
     } finally {
@@ -76,16 +75,38 @@ export default function WhoToFollow() {
     }
   };
 
+  const handleUnfollow = async (userId: string) => {
+    setLoadingStates((prev) => ({ ...prev, [userId]: true }));
+
+    try {
+      const response = await fetch("/api/unfollow", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId }),
+      });
+
+      if (!response.ok) throw new Error("Failed to unfollow user");
+
+      setSuggestions((prev) =>
+        prev.map((user) =>
+          user.id === userId ? { ...user, isFollowing: false } : user
+        )
+      );
+    } catch (error) {
+      console.error("Failed to unfollow user:", error);
+    } finally {
+      setLoadingStates((prev) => ({ ...prev, [userId]: false }));
+    }
+  };
+
   const handleToggleExpand = () => {
     if (expanded) {
-      // ✅ Collapse: Show only the first 3 users
       setSuggestions((prev) => prev.slice(0, 3));
-      setOffset(3); // Reset offset for future expansions
+      setOffset(3);
     } else {
-      // ✅ Expand: Fetch more users
       fetchSuggestions();
     }
-    setExpanded(!expanded); // Toggle state
+    setExpanded(!expanded);
   };
 
   if (!mounted) return null;
@@ -111,8 +132,7 @@ export default function WhoToFollow() {
               variant="outline"
               size="sm"
               loading={loadingStates[user.id]}
-              onClick={() => handleFollow(user.id)}
-              disabled={user.isFollowing}
+              onClick={() => user.isFollowing ? handleUnfollow(user.id) : handleFollow(user.id)}
             >
               {user.isFollowing ? "Following" : <><UserPlus className="h-4 w-4" /> Follow</>}
             </LoadingButton>
@@ -120,7 +140,6 @@ export default function WhoToFollow() {
         ))}
       </div>
 
-      {/* ✅ Show More / Show Less Button */}
       <Button
         variant="link"
         className="w-full mt-4 text-sm text-muted-foreground"
