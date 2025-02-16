@@ -1,10 +1,11 @@
 // ForYouFeed.tsx
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import InfiniteScrollContainer from "@/components/InfiniteScrollingContainer";
 import Post from "@/components/posts/Post";
 import PostsLoadingSkeleton from "@/components/posts/PostLoadingSkeleton";
+import MobileWhoToFollow from "@/components/mobileWhoToFollow";
 import kyInstance from "@/lib/ky";
 import { PostsPage } from "@/lib/types";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
@@ -19,6 +20,7 @@ declare global {
 
 export default function ForYouFeed() {
   const queryClient = useQueryClient();
+  const [showMobileSuggestions, setShowMobileSuggestions] = useState(false);
 
   const {
     data,
@@ -73,6 +75,14 @@ export default function ForYouFeed() {
     };
   }, []);
 
+  // Check posts length to show mobile suggestions
+  useEffect(() => {
+    const posts = data?.pages.flatMap((page) => page.posts) || [];
+    if (posts.length >= 6) {
+      setShowMobileSuggestions(true);
+    }
+  }, [data?.pages]);
+
   const posts = data?.pages.flatMap((page) => page.posts) || [];
 
   if (status === "pending") {
@@ -100,8 +110,16 @@ export default function ForYouFeed() {
       className="space-y-5"
       onBottomReached={() => hasNextPage && !isFetching && fetchNextPage()}
     >
-      {posts.map((post) => (
-        <Post key={post.id} post={post} />
+      {posts.map((post, index) => (
+        <div key={post.id}>
+          <Post post={post} />
+          {/* Show mobile suggestions after 5th post */}
+          {index === 5 && showMobileSuggestions && (
+            <div className="lg:hidden w-full mt-6">
+              <MobileWhoToFollow />
+            </div>
+          )}
+        </div>
       ))}
       {isFetchingNextPage && <Loader2 className="mx-auto my-3 animate-spin" />}
     </InfiniteScrollContainer>

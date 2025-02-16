@@ -1,40 +1,66 @@
+"use client";
+import { useState, useEffect } from "react";
 import PostEditor from "@/components/posts/editor/PostEditor";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import FollowingFeed from "./FollowingFeed";
 import ForYouFeed from "./ForYouFeed";
+import FollowingFeed from "./FollowingFeed";
+import MobileWhoToFollow from "@/components/mobileWhoToFollow";
 
 export default function Home() {
+  const [activeFeed, setActiveFeed] = useState("for-you");
+  const [showMobileSuggestions, setShowMobileSuggestions] = useState(false);
+
+  // Monitor posts length for mobile suggestions
+  useEffect(() => {
+    // You can get the posts length from ForYouFeed or your state management solution
+    const checkPostsLength = async () => {
+      // Assuming you have a way to check posts length
+      // if (posts.length >= 6) {
+      setShowMobileSuggestions(true);
+      // }
+    };
+    checkPostsLength();
+  }, []);
+
   return (
     <main className="flex w-full min-w-0 gap-5">
       <div className="w-full min-w-0 space-y-5">
         <PostEditor />
-        <Tabs defaultValue="for-you" className="w-full">
-        <TabsList className="flex justify-center w-full bg-transparent border border-gray-300 dark:border-gray-700 rounded-full p-1">
-  <TabsTrigger
-    value="for-you"
-    className="w-1/2 text-center py-3 rounded-full font-medium text-gray-500 dark:text-gray-300 
-              data-[state=active]:text-[#E94560] dark:data-[state=active]:text-[#E94560] relative">
-    For You
-    <span className="absolute bottom-0 left-0 w-full h-1 bg-[#E94560] 
-                     scale-x-0 data-[state=active]:scale-x-100 transition-transform duration-300" />
-  </TabsTrigger>
+        
+        {/* Custom Toggle Instead of Tabs */}
+        <div className="flex justify-center w-full">
+          <div className="flex bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 
+                          rounded-full p-1 shadow-md w-[250px]">
+            <button
+              className={`w-1/2 text-center py-3 rounded-full font-medium transition-all 
+                          ${activeFeed === "for-you"
+                ? "bg-[#E94560] text-white shadow-md"
+                : "text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+              }`}
+              onClick={() => setActiveFeed("for-you")}
+            >
+              For You
+            </button>
+            <button
+              className={`w-1/2 text-center py-3 rounded-full font-medium transition-all 
+                          ${activeFeed === "following"
+                ? "bg-[#E94560] text-white shadow-md"
+                : "text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+              }`}
+              onClick={() => setActiveFeed("following")}
+            >
+              Following
+            </button>
+          </div>
+        </div>
 
-  <TabsTrigger
-    value="following"
-    className="w-1/2 text-center py-3 rounded-full font-medium text-gray-500 dark:text-gray-300 
-              data-[state=active]:text-[#E94560] dark:data-[state=active]:text-[#E94560] relative">
-    Following
-    <span className="absolute bottom-0 left-0 w-full h-1 bg-[#E94560] 
-                     scale-x-0 data-[state=active]:scale-x-100 transition-transform duration-300" />
-  </TabsTrigger>
-</TabsList>
-          <TabsContent value="for-you">
-            <ForYouFeed />
-          </TabsContent>
-          <TabsContent value="following">
-            <FollowingFeed />
-          </TabsContent>
-        </Tabs>
+        {/* Content Based on Selected Feed */}
+        {activeFeed === "for-you" ? (
+          <div className="space-y-6 w-full">
+            <ForYouFeed showMobileSuggestions={showMobileSuggestions} />
+          </div>
+        ) : (
+          <FollowingFeed />
+        )}
       </div>
     </main>
   );
