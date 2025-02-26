@@ -46,22 +46,24 @@
     "react-image-file-resizer": "^0.4.8",
     "react-intersection-observer": "^9.15.1",
     "react-linkify-it": "^1.0.8",
+    "react-swipeable": "^7.0.2",
     "stream-chat": "^8.55.0",
     "stream-chat-react": "^12.10.0",
     "tailwind-merge": "^3.0.1",
+    "tailwind-scrollbar-hide": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^7.4.4",
     "zod": "^3.24.1"
   },
   "prisma": {
-  "schema": "prisma/schema.prisma"
-},
-
+    "schema": "prisma/schema.prisma"
+  },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/react-swipeable": "^4.3.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
     "eslint-config-prettier": "^10.0.1",

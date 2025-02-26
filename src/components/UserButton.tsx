@@ -18,6 +18,7 @@ import Link from "next/link";
 import { logout } from "@/app/(auth)/actions";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface UserButtonProps {
   className?: string;
@@ -28,7 +29,7 @@ export default function UserButton({ className }: UserButtonProps) {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+const queryClient = useQueryClient();
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -39,6 +40,7 @@ export default function UserButton({ className }: UserButtonProps) {
     setTheme(newTheme);
     setDropdownOpen(false);
   };
+
   return (
     <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
       <DropdownMenuTrigger asChild>
@@ -77,7 +79,9 @@ export default function UserButton({ className }: UserButtonProps) {
           </DropdownMenuContent>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => logout()}>
+        <DropdownMenuItem onClick={()  =>
+          { queryClient.clear();
+            logout();}}>
           <LogOutIcon className="size-4 mr-2" />
           Log out
         </DropdownMenuItem>
